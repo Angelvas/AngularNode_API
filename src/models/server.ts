@@ -1,9 +1,13 @@
 import express, {Application} from 'express';
 import cors from 'cors';
-import routesProduct from '../routes/product';
+
+import { User } from './usuario-models';
+import dataBase from '../db/connection';
+
+// Rutas API
+import routerPreguntas from '../routes/preguntas';
 import routesUser from '../routes/usuario';
-import { User } from './usuario';
-import sequelize from '../db/connection';
+import routerPreguntasUsuario from '../routes/preguntas_usuario';
 
 class Server{
     private app: Application;
@@ -24,9 +28,9 @@ class Server{
         })
     }
     routes(){
-        this.app.use('/api/products', routesProduct);
         this.app.use('/api/users', routesUser);
-        this.app.use('/api/users/login', routesUser);
+        this.app.use('/api/preguntas',routerPreguntas)
+        this.app.use('/api/preguntasusuario',routerPreguntasUsuario)
     }
     midlewares(){
         this.app.use(express.json());
@@ -44,12 +48,11 @@ class Server{
 
     async dbConnectValidate(){
         try {
-            await sequelize.authenticate();
+            await dataBase.authenticate();
             console.log('Connection has been established successfully.');
-          } catch (error) {
+        } catch (error) {
             console.error('Unable to connect to the database:', error);
-          }
+        }
     }
-    
 }
 export default Server;
