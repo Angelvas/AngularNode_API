@@ -4,10 +4,12 @@ import cors from 'cors';
 import { User } from './usuario-models';
 import dataBase from '../db/connection';
 
+
 // Rutas API
 import routerPreguntas from '../routes/preguntas';
 import routesUser from '../routes/usuario';
 import routerPreguntasUsuario from '../routes/preguntas_usuario';
+import routerRoles from '../routes/roles';
 
 class Server{
     private app: Application;
@@ -31,6 +33,7 @@ class Server{
         this.app.use('/api/users', routesUser);
         this.app.use('/api/preguntas',routerPreguntas)
         this.app.use('/api/preguntasusuario',routerPreguntasUsuario)
+        this.app.use('/api/roles',routerRoles)
     }
     midlewares(){
         this.app.use(express.json());
